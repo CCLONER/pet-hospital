@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PetCaseMapper">
+    
+    <resultMap type="PetCase" id="PetCaseResult">
+        <result property="id"    column="id"    />
+        <result property="petName"    column="pet_name"    />
+        <result property="petType"    column="pet_type"    />
+        <result property="age"    column="age"    />
+        <result property="detail"    column="detail"    />
+        <result property="phone"    column="phone"    />
+        <result property="masterName"    column="master_name"    />
+        <result property="evaluation"    column="evaluation"    />
+        <result property="doctor"    column="doctor"    />
+        <result property="cpTime"    column="cp_time"    />
+    </resultMap>
+
+    <sql id="selectPetCaseVo">
+        select id, pet_name, pet_type, age, detail, phone, master_name, evaluation, doctor_name, cp_time from pet_case
+    </sql>
+
+    <select id="selectPetCaseList" parameterType="PetCase" resultMap="PetCaseResult">
+        <include refid="selectPetCaseVo"/>
+        <where>  
+            <if test="petName != null  and petName != ''"> and pet_name like concat('%', #{petName}, '%')</if>
+            <if test="petType != null  and petType != ''"> and pet_type = #{petType}</if>
+            <if test="phone != null "> and phone = #{phone}</if>
+            <if test="masterName != null  and masterName != ''"> and master_name like concat('%', #{masterName}, '%')</if>
+            <if test="doctor != null  and doctor != ''"> and doctor like concat('%', #{doctor}, '%')</if>
+            <if test="cpTime != null "> and cp_time = #{cpTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectPetCaseById" parameterType="Long" resultMap="PetCaseResult">
+        <include refid="selectPetCaseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPetCase" parameterType="PetCase" useGeneratedKeys="true" keyProperty="id">
+        insert into pet_case
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="petName != null">pet_name,</if>
+            <if test="petType != null and petType != ''">pet_type,</if>
+            <if test="age != null">age,</if>
+            <if test="detail != null">detail,</if>
+            <if test="phone != null">phone,</if>
+            <if test="masterName != null">master_name,</if>
+            <if test="evaluation != null">evaluation,</if>
+            <if test="doctor != null and doctor != ''">doctor,</if>
+            <if test="cpTime != null">cp_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="petName != null">#{petName},</if>
+            <if test="petType != null and petType != ''">#{petType},</if>
+            <if test="age != null">#{age},</if>
+            <if test="detail != null">#{detail},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="masterName != null">#{masterName},</if>
+            <if test="evaluation != null">#{evaluation},</if>
+            <if test="doctor != null and doctor != ''">#{doctor},</if>
+            <if test="cpTime != null">#{cpTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePetCase" parameterType="PetCase">
+        update pet_case
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="petName != null">pet_name = #{petName},</if>
+            <if test="petType != null and petType != ''">pet_type = #{petType},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="detail != null">detail = #{detail},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="masterName != null">master_name = #{masterName},</if>
+            <if test="evaluation != null">evaluation = #{evaluation},</if>
+            <if test="doctor != null and doctor != ''">doctor = #{doctor},</if>
+            <if test="cpTime != null">cp_time = #{cpTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePetCaseById" parameterType="Long">
+        delete from pet_case where id = #{id}
+    </delete>
+
+    <delete id="deletePetCaseByIds" parameterType="String">
+        delete from pet_case where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
