@@ -131,7 +131,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键id" align="center" prop="id" />
+      <!-- <el-table-column label="主键id" align="center" prop="id" /> -->
       <el-table-column label="宠物名称" align="center" prop="petName" />
       <el-table-column label="宠物类型" align="center" prop="petType">
         <template slot-scope="scope">
