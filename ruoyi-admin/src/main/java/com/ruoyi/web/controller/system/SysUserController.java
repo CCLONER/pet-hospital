@@ -228,4 +228,15 @@ public class SysUserController extends BaseController
         userService.insertUserAuth(userId, roleIds);
         return success();
     }
+
+    @PreAuthorize("@ss.hasPermi('system:user:query')")
+    @PostMapping("/getDoctor")
+    public AjaxResult getDoctor(){
+        final List<SysUser> doctorList = userService.selectDoctorList();
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("doctor",doctorList);
+        return ajax;
+    }
+
+
 }

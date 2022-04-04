@@ -214,7 +214,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		update sys_user set del_flag = '2' where user_id in
  		<foreach collection="array" item="userId" open="(" separator="," close=")">
  			#{userId}
-        </foreach> 
+        </foreach>
  	</delete>
-	
-</mapper> 
+
+	<select id="selectDoctorList" resultMap="SysUserResult">
+		SELECT * FROM sys_user u where user_id in (select user_id from sys_user_post where post_id = 3)
+    </select>
+
+
+
+
+</mapper>

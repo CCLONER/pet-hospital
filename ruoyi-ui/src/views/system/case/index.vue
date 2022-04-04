@@ -213,12 +213,12 @@
           <el-input v-model="form.masterName" placeholder="请输入主人姓名" />
         </el-form-item>
         <el-form-item label="主治医生" prop="doctor">
-          <el-select v-model="form.petType" placeholder="请选择宠物类型">
+          <el-select v-model="form.doctor" placeholder="请选择主治医生">
             <el-option
-              v-for="dict in dict.type.pet_type"
-              :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
+              v-for="item in doctorList"
+              :key="item.userId"
+              :label="item.nickName"
+              :value="item.userId"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -253,6 +253,8 @@ import {
   updateCase,
 } from "@/api/system/case";
 
+import { getDoctor } from "@/api/system/user";
+
 export default {
   name: "Case",
   dicts: ["pet_type"],
@@ -272,6 +274,8 @@ export default {
       total: 0,
       // case表格数据
       caseList: [],
+      //doctorlist数据
+      doctorList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -305,8 +309,17 @@ export default {
   },
   created() {
     this.getList();
+    this.getDoctor();
   },
   methods: {
+    //查询医生用户列表
+    getDoctor() {
+      getDoctor().then((response) => {
+        this.doctorList = response.doctor;
+        console.log(JSON.stringify(this.doctorList));
+      });
+    },
+
     /** 查询case列表 */
     getList() {
       this.loading = true;
