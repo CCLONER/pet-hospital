@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectPetCaseVo">
-        select id, pet_name, pet_type, age, detail, phone, master_name, evaluation, doctor_name, cp_time from pet_case
+        select id, pet_name, pet_type, age, detail, phone, master_name, evaluation, doctor, cp_time from pet_case
     </sql>
 
     <select id="selectPetCaseList" parameterType="PetCase" resultMap="PetCaseResult">

@@ -8,14 +8,14 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="宠物名称" prop="petName">
+      <!-- <el-form-item label="宠物名称" prop="petName">
         <el-input
           v-model="queryParams.petName"
           placeholder="请输入宠物名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="宠物类型" prop="petType">
         <el-select
           v-model="queryParams.petType"
@@ -46,8 +46,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <br />
       <el-form-item label="治疗时间" prop="cpTime">
         <el-date-picker
+          style="width: 205px"
           clearable
           v-model="queryParams.cpTime"
           type="date"
@@ -139,7 +141,7 @@
       <el-table-column label="宠物年龄" align="center" prop="age" />
       <el-table-column label="主人电话" align="center" prop="phone" />
       <el-table-column label="主人姓名" align="center" prop="masterName" />
-      <el-table-column label="主治医生" align="center" prop="doctor" />
+      <!--      <el-table-column label="主治医生" align="center" prop="doctor" />-->
       <el-table-column
         label="治疗时间"
         align="center"
@@ -370,7 +372,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加case";
+      this.title = "添加病例";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -379,7 +381,7 @@ export default {
       getCase(id).then((response) => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改case";
+        this.title = "修改病例";
       });
     },
     /** 提交按钮 */
@@ -406,7 +408,7 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$modal
-        .confirm('是否确认删除case编号为"' + ids + '"的数据项？')
+        .confirm('是否确认删除病例编号为"' + ids + '"的数据项？')
         .then(function () {
           return delCase(ids);
         })
