@@ -210,4 +210,10 @@ public interface ISysUserService
      * @return
      */
     public List<SysUser> selectDoctorList();
+
+    /**
+     *   查询医生/造型师列表
+     * @return
+     */
+    public List<SysUser> selectDoctorsList();
 }

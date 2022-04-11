@@ -562,5 +562,8 @@ public class SysUserServiceImpl implements ISysUserService
         return userMapper.selectDoctorList();
     }
 
-
+    @Override
+    public List<SysUser> selectDoctorsList() {
+        return userMapper.selectDoctorsList();
+    }
 }

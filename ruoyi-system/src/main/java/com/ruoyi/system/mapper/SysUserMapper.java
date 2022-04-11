@@ -127,4 +127,7 @@ public interface SysUserMapper
     public SysUser checkEmailUnique(String email);
 
     public List<SysUser> selectDoctorList();
+
+    public List<SysUser> selectDoctorsList();
+
 }

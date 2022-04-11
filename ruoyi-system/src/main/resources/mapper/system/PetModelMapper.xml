@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PetModelMapper">
+    
+    <resultMap type="PetModel" id="PetModelResult">
+        <result property="id"    column="id"    />
+        <result property="petName"    column="pet_name"    />
+        <result property="doctor"    column="doctor"    />
+        <result property="petShape"    column="pet_shape"    />
+        <result property="cpTime"    column="cp_time"    />
+        <result property="phone"    column="phone"    />
+        <result property="masterName"    column="master_name"    />
+    </resultMap>
+
+    <sql id="selectPetModelVo">
+        select id, pet_name, doctor, pet_shape, cp_time, phone, master_name from pet_model
+    </sql>
+
+    <select id="selectPetModelList" parameterType="PetModel" resultMap="PetModelResult">
+        <include refid="selectPetModelVo"/>
+        <where>  
+            <if test="petName != null  and petName != ''"> and pet_name like concat('%', #{petName}, '%')</if>
+            <if test="doctor != null "> and doctor = #{doctor}</if>
+            <if test="petShape != null  and petShape != ''"> and pet_shape = #{petShape}</if>
+            <if test="cpTime != null "> and cp_time = #{cpTime}</if>
+            <if test="phone != null "> and phone = #{phone}</if>
+            <if test="masterName != null  and masterName != ''"> and master_name like concat('%', #{masterName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectPetModelById" parameterType="Long" resultMap="PetModelResult">
+        <include refid="selectPetModelVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPetModel" parameterType="PetModel" useGeneratedKeys="true" keyProperty="id">
+        insert into pet_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="petName != null">pet_name,</if>
+            <if test="doctor != null">doctor,</if>
+            <if test="petShape != null and petShape != ''">pet_shape,</if>
+            <if test="cpTime != null">cp_time,</if>
+            <if test="phone != null">phone,</if>
+            <if test="masterName != null">master_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="petName != null">#{petName},</if>
+            <if test="doctor != null">#{doctor},</if>
+            <if test="petShape != null and petShape != ''">#{petShape},</if>
+            <if test="cpTime != null">#{cpTime},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="masterName != null">#{masterName},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePetModel" parameterType="PetModel">
+        update pet_model
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="petName != null">pet_name = #{petName},</if>
+            <if test="doctor != null">doctor = #{doctor},</if>
+            <if test="petShape != null and petShape != ''">pet_shape = #{petShape},</if>
+            <if test="cpTime != null">cp_time = #{cpTime},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="masterName != null">master_name = #{masterName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePetModelById" parameterType="Long">
+        delete from pet_model where id = #{id}
+    </delete>
+
+    <delete id="deletePetModelByIds" parameterType="String">
+        delete from pet_model where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

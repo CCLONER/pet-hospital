@@ -135,9 +135,9 @@ export function getDoctor() {
 }
 
 //查询美容造型师信息
-export function getModel() {
+export function getDoctors() {
   return request({
-    url: "/system/user/getModel",
+    url: "/system/user/getDoctors",
     method: "post",
   });
 }
