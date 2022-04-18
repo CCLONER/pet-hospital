@@ -2,8 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.system.mapper.SysUserMapper">
 
+<mapper namespace="com.ruoyi.system.mapper.SysUserMapper">
+<!--SysUser表的映射关系 -->
 	<resultMap type="SysUser" id="SysUserResult">
 		<id     property="userId"       column="user_id"      />
 		<result property="deptId"       column="dept_id"      />
@@ -23,10 +24,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateBy"     column="update_by"    />
 		<result property="updateTime"   column="update_time"  />
 		<result property="remark"       column="remark"       />
+<!--		一对多 部门  resultMap是 property为实体表属性名 column为数据库表的字段名 -->
 		<association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
+<!--		多对多 角色  -->
 		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
 	</resultMap>
-	
+<!--SysDept部门表映射-->
 	<resultMap id="deptResult" type="SysDept">
 		<id     property="deptId"   column="dept_id"     />
 		<result property="parentId" column="parent_id"   />
@@ -35,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="leader"   column="leader"      />
 		<result property="status"   column="dept_status" />
 	</resultMap>
-	
+<!--SysRole角色表映射-->
 	<resultMap id="RoleResult" type="SysRole">
 		<id     property="roleId"       column="role_id"        />
 		<result property="roleName"     column="role_name"      />
@@ -44,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="dataScope"     column="data_scope"    />
 		<result property="status"       column="role_status"    />
 	</resultMap>
-	
+<!-- sys_user用户表获取信息 连接 sys_dept部门表 sys_user_role中间表 sys_role角色表-->
 	<sql id="selectUserVo">
         select u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.avatar, u.phonenumber, u.password, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, 
         d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
