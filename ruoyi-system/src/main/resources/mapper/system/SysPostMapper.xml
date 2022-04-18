@@ -119,4 +119,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach> 
  	</delete>
 
+
+	<select id="selectPostCount" resultType="java.lang.Integer">
+		SELECT count(*) FROM `sys_post` p left JOIN sys_user_post up on p.post_id = up.post_id group by p.post_id;
+	</select>
+
+
+
 </mapper> 

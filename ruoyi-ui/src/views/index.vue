@@ -3,9 +3,9 @@
     <el-container>
                    <el-aside width="600px"><bar /></el-aside>            
        <el-container>
-                       <el-main><bing1 /></el-main>                <el-footer
-          ><bing2
-        /></el-footer>
+                       <el-main width="500px"
+          ><bing1 /> <br /><bing2
+        /></el-main>
                      </el-container
       >
                  </el-container

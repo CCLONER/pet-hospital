@@ -45,10 +45,15 @@ import VueMeta from "vue-meta";
 // 字典数据组件
 import DictData from "@/components/DictData";
 
+//新引入的组件
+
 //引入echarts
 import echarts from "echarts";
+//引入axios
+import axios from "axios";
 
 // 全局方法挂载
+Vue.prototype.$axios = axios;
 Vue.prototype.$echarts = echarts;
 Vue.prototype.getDicts = getDicts;
 Vue.prototype.getConfigKey = getConfigKey;

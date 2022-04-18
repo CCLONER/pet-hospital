@@ -1,5 +1,5 @@
 <template>
-  <div id="bing1" :style="{ width: '800px', height: '600px' }"></div>
+  <div id="bing1" :style="{ width: '300px', height: '300px' }"></div>
 </template>
 <script>
 export default {
