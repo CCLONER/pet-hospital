@@ -2,6 +2,7 @@
   <div class="app-container">
     <el-form
       :model="queryParams"
+      v-if="showQuery == true"
       ref="queryForm"
       size="small"
       :inline="true"
@@ -256,12 +257,13 @@ import {
 } from "@/api/system/case";
 
 import { getDoctor } from "@/api/system/user";
-
+import { getInfo } from "@/api/login";
 export default {
   name: "Case",
   dicts: ["pet_type"],
   data() {
     return {
+      showQuery: true,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -310,15 +312,26 @@ export default {
     };
   },
   created() {
+    getInfo().then((res) => {
+      this.queryParams.doctor = res.user.userId;
+      if (res.user.userId != 1) {
+        this.showQuery = false;
+      }
+    });
+    this.$emit("queryTable");
     this.getList();
+  },
+
+  mounted() {
     this.getDoctor();
   },
+
   methods: {
     //查询医生用户列表
     getDoctor() {
       getDoctor().then((response) => {
         this.doctorList = response.doctor;
-        console.log(JSON.stringify(this.doctorList));
+        // console.log(JSON.stringify(this.doctorList));
       });
     },
 
@@ -326,6 +339,7 @@ export default {
     getList() {
       this.loading = true;
       listCase(this.queryParams).then((response) => {
+        console.log(JSON.stringify(response));
         this.caseList = response.rows;
         this.total = response.total;
         this.loading = false;
