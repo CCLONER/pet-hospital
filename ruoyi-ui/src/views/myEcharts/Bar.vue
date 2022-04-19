@@ -1,5 +1,5 @@
 <template>
-  <div id="myChart" :style="{ width: '550px', height: '550px' }"></div>
+  <div id="myChart" :style="{ width: '550px', height: '530px' }"></div>
 </template>
 <script>
 import axios from "axios";

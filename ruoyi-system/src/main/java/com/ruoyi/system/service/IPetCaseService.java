@@ -1,7 +1,8 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
 import com.ruoyi.system.domain.PetCase;
+
+import java.util.List;
 
 /**
  * caseService接口
@@ -58,4 +59,7 @@ public interface IPetCaseService
      * @return 结果
      */
     public int deletePetCaseById(Long id);
+
+
+    public List<Integer> selectCaseCount();
 }

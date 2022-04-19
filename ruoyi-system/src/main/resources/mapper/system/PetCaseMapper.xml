@@ -90,4 +90,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectCaseCount" resultType="java.lang.Integer">
+        SELECT count(*) FROM pet_Case group by pet_type
+    </select>
+
 </mapper>

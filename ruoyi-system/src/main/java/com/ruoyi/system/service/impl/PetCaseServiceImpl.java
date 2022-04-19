@@ -1,11 +1,12 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.ruoyi.system.domain.PetCase;
+import com.ruoyi.system.mapper.PetCaseMapper;
+import com.ruoyi.system.service.IPetCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.PetCaseMapper;
-import com.ruoyi.system.domain.PetCase;
-import com.ruoyi.system.service.IPetCaseService;
+
+import java.util.List;
 
 /**
  * caseService业务层处理
@@ -89,5 +90,10 @@ public class PetCaseServiceImpl implements IPetCaseService
     public int deletePetCaseById(Long id)
     {
         return petCaseMapper.deletePetCaseById(id);
+    }
+
+    @Override
+    public List<Integer> selectCaseCount() {
+       return petCaseMapper.selectCaseCount();
     }
 }

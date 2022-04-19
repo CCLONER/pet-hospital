@@ -6,3 +6,10 @@ export function getbar() {
     method: "get",
   });
 }
+
+export function getbing1() {
+  return request({
+    url: "system/echarts/bing1",
+    method: "get",
+  });
+}

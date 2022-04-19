@@ -1,7 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
 import com.ruoyi.system.domain.PetCase;
+
+import java.util.List;
 
 /**
  * caseMapper接口
@@ -58,4 +59,8 @@ public interface PetCaseMapper
      * @return 结果
      */
     public int deletePetCaseByIds(Long[] ids);
+
+
+   public List<Integer> selectCaseCount();
+
 }

@@ -20,7 +20,7 @@ public class ColorUtils {
         }else if(value <= 9){
             color = "#628ced";
         }else if (value <=12){
-            color = "#f99209";
+            color = "#61a0a8";
         }
 
         Map<String, String> map = new HashMap<>();
