@@ -260,8 +260,13 @@
         label-width="80px"
       >
         <el-row>
-          <el-form-item label="内容">
-            <editor v-model="lookform.noticeContent" :min-height="192" />
+          <!-- 添加只读效果 举一反三 -->
+          <el-form-item>
+            <editor
+              v-model="lookform.noticeContent"
+              :min-height="192"
+              read-only="true"
+            />
           </el-form-item>
         </el-row>
       </el-form>
