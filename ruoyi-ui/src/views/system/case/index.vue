@@ -120,6 +120,11 @@
           >导出</el-button
         >
       </el-col>
+      <el-col :span="3">
+        <el-button icon="el-icon-user-solid" size="mini" @click="getMyInfo"
+          >查看本人信息</el-button
+        >
+      </el-col>
       <right-toolbar
         :showSearch.sync="showSearch"
         @queryTable="getList"
@@ -311,22 +316,17 @@ export default {
       },
     };
   },
-  created() {
-    getInfo().then((res) => {
-      this.queryParams.doctor = res.user.userId;
-      if (res.user.userId != 1) {
-        this.showQuery = false;
-      }
-    });
-    this.$emit("queryTable");
+  mounted() {
     this.getList();
   },
-
-  mounted() {
-    this.getDoctor();
-  },
-
   methods: {
+    //查看本人相关信息
+    getMyInfo() {
+      getInfo().then((res) => {
+        this.queryParams.doctor = res.user.userId;
+      });
+      this.getList();
+    },
     //查询医生用户列表
     getDoctor() {
       getDoctor().then((response) => {
@@ -339,7 +339,6 @@ export default {
     getList() {
       this.loading = true;
       listCase(this.queryParams).then((response) => {
-        console.log(JSON.stringify(response));
         this.caseList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -374,6 +373,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.queryParams.doctor = null;
       this.handleQuery();
     },
     // 多选框选中数据
