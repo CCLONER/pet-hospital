@@ -318,14 +318,17 @@ export default {
   },
   mounted() {
     this.getList();
+    this.getDoctor();
   },
   methods: {
     //查看本人相关信息
     getMyInfo() {
       getInfo().then((res) => {
-        this.queryParams.doctor = res.user.userId;
+        if (res.user.userId != 1) {
+          this.queryParams.doctor = res.user.userId;
+          this.getList();
+        }
       });
-      this.getList();
     },
     //查询医生用户列表
     getDoctor() {

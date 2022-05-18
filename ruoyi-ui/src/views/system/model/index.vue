@@ -117,6 +117,11 @@
           >导出</el-button
         >
       </el-col>
+      <el-col :span="3">
+        <el-button icon="el-icon-user-solid" size="mini" @click="getMyInfo"
+          >查看本人信息</el-button
+        >
+      </el-col>
       <right-toolbar
         :showSearch.sync="showSearch"
         @queryTable="getList"
@@ -245,7 +250,7 @@ import {
   addModel,
   updateModel,
 } from "@/api/system/model";
-
+import { getInfo } from "@/api/login";
 import { getDoctors } from "@/api/system/user";
 
 export default {
@@ -302,11 +307,21 @@ export default {
     this.getDoctors();
   },
   methods: {
+    //查看本人相关信息
+    getMyInfo() {
+      getInfo().then((res) => {
+        if (res.user.userId != 1) {
+          this.queryParams.doctor = res.user.userId;
+          this.getList();
+        }
+      });
+    },
+
     //查询医生 美容师用户列表
     getDoctors() {
       getDoctors().then((response) => {
         this.doctorsList = response.doctor;
-        console.log(JSON.stringify(this.doctorsList));
+        //console.log(JSON.stringify(this.doctorsList));
       });
     },
 
@@ -345,6 +360,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.resetForm("queryForm");
+      this.queryParams.doctor = null;
       this.handleQuery();
     },
     // 多选框选中数据
