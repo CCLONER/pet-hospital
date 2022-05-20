@@ -223,7 +223,7 @@
         <el-form-item label="主治医生" prop="doctor">
           <el-select v-model="form.doctor" placeholder="请选择主治医生">
             <el-option
-              v-for="item in doctorList"
+              v-for="item in doctorsList"
               :key="item.userId"
               :label="item.nickName"
               :value="item.userId"
@@ -284,7 +284,7 @@ export default {
       // case表格数据
       caseList: [],
       //doctorlist数据
-      doctorList: [],
+      doctorsList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -332,9 +332,17 @@ export default {
     },
     //查询医生用户列表
     getDoctor() {
-      getDoctor().then((response) => {
-        this.doctorList = response.doctor;
-        // console.log(JSON.stringify(this.doctorList));
+      getInfo().then((res) => {
+        if (res.user.userId != 1) {
+          //!=1不是管理员 则doctorList可选项只有自己
+          this.doctorsList[0] = res.user;
+        } else {
+          //是管理员，则可以选择所有医生
+          getDoctor().then((response) => {
+            this.doctorsList = response.doctor;
+            //console.log(JSON.stringify(this.doctorsList));
+          });
+        }
       });
     },
 
@@ -397,8 +405,17 @@ export default {
       const id = row.id || this.ids;
       getCase(id).then((response) => {
         this.form = response.data;
-        this.open = true;
-        this.title = "修改病例";
+        getInfo().then((res) => {
+          if (
+            res.user.userId == 1 ||
+            this.queryParams.doctor == response.data.doctor
+          ) {
+            this.open = true;
+            this.title = "修改病例";
+          } else {
+            alert("无法操作其他用户创建的数据");
+          }
+        });
       });
     },
     /** 提交按钮 */
@@ -424,6 +441,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
+
       this.$modal
         .confirm('是否确认删除病例编号为"' + ids + '"的数据项？')
         .then(function () {

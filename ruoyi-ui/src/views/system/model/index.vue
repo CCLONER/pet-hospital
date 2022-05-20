@@ -40,14 +40,15 @@
         >
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="主人手机" prop="phone">
+      <br />
+      <!-- <el-form-item label="主人手机" prop="phone">
         <el-input
           v-model="queryParams.phone"
           placeholder="请输入主人手机"
           clearable
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="主人姓名" prop="masterName">
         <el-input
           v-model="queryParams.masterName"
@@ -251,7 +252,7 @@ import {
   updateModel,
 } from "@/api/system/model";
 import { getInfo } from "@/api/login";
-import { getDoctors } from "@/api/system/user";
+import { getDoctor } from "@/api/system/user";
 
 export default {
   name: "Model",
@@ -302,7 +303,7 @@ export default {
       },
     };
   },
-  created() {
+  mounted() {
     this.getList();
     this.getDoctors();
   },
@@ -319,9 +320,17 @@ export default {
 
     //查询医生 美容师用户列表
     getDoctors() {
-      getDoctors().then((response) => {
-        this.doctorsList = response.doctor;
-        //console.log(JSON.stringify(this.doctorsList));
+      getInfo().then((res) => {
+        if (res.user.userId != 1) {
+          //!=1不是管理员 则doctorList可选项只有自己
+          this.doctorsList[0] = res.user;
+        } else {
+          //是管理员，则可以选择所有医生
+          getDoctor().then((response) => {
+            this.doctorsList = response.doctor;
+            //console.log(JSON.stringify(this.doctorsList));
+          });
+        }
       });
     },
 
@@ -381,8 +390,17 @@ export default {
       const id = row.id || this.ids;
       getModel(id).then((response) => {
         this.form = response.data;
-        this.open = true;
-        this.title = "修改美容造型";
+        getInfo().then((res) => {
+          if (
+            res.user.userId == 1 ||
+            this.queryParams.doctor == response.data.doctor
+          ) {
+            this.open = true;
+            this.title = "修改美容造型";
+          } else {
+            alert("无法操作其他用户创建的数据");
+          }
+        });
       });
     },
     /** 提交按钮 */
