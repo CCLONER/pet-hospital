@@ -16,7 +16,6 @@
 <script>
 import Bar from "../views/myEcharts/Bar.vue";
 import Bing1 from "../views/myEcharts/bing1.vue";
-import Bing2 from "../views/myEcharts/bing2.vue";
 export default {
   components: { Bar, Bing1 },
   name: "Index",
